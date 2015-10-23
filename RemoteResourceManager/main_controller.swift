@@ -22,7 +22,11 @@ class main_controller: UIViewController{
     @IBOutlet var mem_label: UIView!
     @IBOutlet weak var allcpu_label: UILabel!
     @IBOutlet weak var allmemory_label: UILabel!
+    //@IBOutlet var allcpu_progress: UIView!
+    //@IBOutlet var allmemory_progress: UIView!
     //@IBOutlet weak var maintableview: UITableView!
+    @IBOutlet weak var allcpu_progress: UIProgressView!
+    @IBOutlet weak var allmem_progress: UIProgressView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,12 +35,13 @@ class main_controller: UIViewController{
         //let performance_text:[String] = performance!.componentsSeparatedByString(",")
         //print(performance_text[1])
         core_lab.text = "CPU Thread:"+String(core)
-        mem_lab.text = "MaxMem"+String(mem)
+        //mem_lab.text = "MaxMem:"+String(mem)+"MB"
+        mem_lab.text = "maxMEM:"+mem_convertstr(String(mem))
         
         net?.sendCommand("OK\n")
         print(core)
        
-        var timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tick", userInfo: nil, repeats: true)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tick", userInfo: nil, repeats: true)
 
         //maintableview.delegate = self
         //maintableview.dataSource = self
@@ -50,9 +55,33 @@ class main_controller: UIViewController{
         {
             let performance_text:[String] = res_str.componentsSeparatedByString(",")
             allcpu_label.text = performance_text[1] + "%"
-            allmemory_label.text = performance_text[0] + "MB"
+            //allmemory_label.text = performance_text[0] + "MB"
+            allmemory_label.text = mem_convertstr(performance_text[0])
+            let cpuprogress:Float = (Float(performance_text[1])!)/100
+            let memprogress:Float = (Float(performance_text[0])!)/Float(mem)
+            
+            allcpu_progress.progress = cpuprogress
+            allmem_progress.progress = memprogress
+            
         }
         
+    }
+    
+    func mem_convertstr(inputstr:String) -> String
+    {
+        var outputint:Double
+        var input:Int = Int(inputstr)!
+        var inputdouble:Double = Double(input)
+        
+        print(inputstr)
+        
+        if(input >= 2000){
+            outputint = Double(inputdouble/1000)
+            return (NSString(format: "%.2f",outputint) as String)+"GB"
+        }else
+        {
+            return String(input)+"MB"
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,18 +89,5 @@ class main_controller: UIViewController{
         // Dispose of any resources that can be recreated.
     }
     
-    /*
-    func maintableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return core
-    }
-    
-    func maintableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
-        
-        //ell.textLabel?.text = texts[indexPath.row]
-        return cell
-    }
-
-    */
     
 }

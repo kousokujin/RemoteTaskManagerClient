@@ -93,26 +93,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="MEM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XwQ-2v-Elp">
-                                <rect key="frame" x="261" y="650" width="114" height="18"/>
+                                <rect key="frame" x="244" y="649" width="110" height="16"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="CPU" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gg0-Oc-gCw">
-                                <rect key="frame" x="142" y="647" width="111" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Spn-av-HPf">
-                                <rect key="frame" x="62" y="85" width="69" height="21"/>
+                                <rect key="frame" x="62" y="85" width="71" height="20"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="ALL CPU" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKm-x1-fhl">
-                                        <rect key="frame" x="0.0" y="0.0" width="69" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="ALL CPU" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKm-x1-fhl">
+                                        <rect key="frame" x="0.0" y="0.0" width="71" height="20"/>
                                         <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -140,26 +133,52 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mUH-I6-Tzg">
+                                <rect key="frame" x="210" y="167" width="112" height="2"/>
+                                <animations/>
+                            </progressView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="k8j-Hy-gsA">
+                                <rect key="frame" x="39" y="167" width="112" height="2"/>
+                                <animations/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="CPU" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gg0-Oc-gCw">
+                                <rect key="frame" x="101" y="644" width="123" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="XwQ-2v-Elp" secondAttribute="trailing" constant="3" id="6Ta-iL-b30"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="XwQ-2v-Elp" secondAttribute="bottom" constant="3" id="7Sk-Le-pck"/>
+                            <constraint firstItem="k8j-Hy-gsA" firstAttribute="centerX" secondItem="Spn-av-HPf" secondAttribute="centerX" id="4Fu-KV-oSK"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="XwQ-2v-Elp" secondAttribute="bottom" constant="3" id="9uA-hl-nWh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XwQ-2v-Elp" secondAttribute="trailing" constant="5" id="ApP-ZB-41L"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OAf-Ou-3r4" secondAttribute="trailing" constant="40" id="Cj5-Bi-kUO"/>
+                            <constraint firstItem="mUH-I6-Tzg" firstAttribute="centerX" secondItem="OAf-Ou-3r4" secondAttribute="centerX" id="IUO-nw-V45"/>
+                            <constraint firstItem="c21-np-QI3" firstAttribute="top" secondItem="gg0-Oc-gCw" secondAttribute="bottom" constant="2" id="Ksy-sz-6LF"/>
                             <constraint firstItem="4OR-ES-Tnb" firstAttribute="top" secondItem="Spn-av-HPf" secondAttribute="bottom" constant="7" id="LlY-7O-IdQ"/>
+                            <constraint firstItem="4OR-ES-Tnb" firstAttribute="centerX" secondItem="Spn-av-HPf" secondAttribute="centerX" id="Q60-Wy-Z1T"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="gg0-Oc-gCw" secondAttribute="bottom" constant="2" id="RTC-RK-de4"/>
+                            <constraint firstItem="dkG-x2-Tcw" firstAttribute="centerX" secondItem="OAf-Ou-3r4" secondAttribute="centerX" id="SYT-sZ-FUd"/>
                             <constraint firstItem="4OR-ES-Tnb" firstAttribute="leading" secondItem="r6B-d2-Ndk" secondAttribute="leadingMargin" constant="50" id="Z0r-fZ-WRr"/>
-                            <constraint firstItem="XwQ-2v-Elp" firstAttribute="leading" secondItem="gg0-Oc-gCw" secondAttribute="trailing" constant="3" id="ZWY-Re-oGt"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="gg0-Oc-gCw" secondAttribute="bottom" constant="3" id="ZXH-fC-Kl0"/>
                             <constraint firstItem="dkG-x2-Tcw" firstAttribute="top" secondItem="OAf-Ou-3r4" secondAttribute="bottom" constant="7" id="cNA-Q4-t0p"/>
+                            <constraint firstItem="XwQ-2v-Elp" firstAttribute="leading" secondItem="gg0-Oc-gCw" secondAttribute="trailing" constant="20" id="cbO-ho-GpY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XwQ-2v-Elp" secondAttribute="trailing" constant="1" id="dXy-9K-nnB"/>
                             <constraint firstItem="dkG-x2-Tcw" firstAttribute="top" secondItem="OAf-Ou-3r4" secondAttribute="bottom" constant="7" id="dzT-dd-l5N"/>
                             <constraint firstItem="Spn-av-HPf" firstAttribute="leading" secondItem="r6B-d2-Ndk" secondAttribute="leadingMargin" constant="50" id="iOa-sI-cjI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dkG-x2-Tcw" secondAttribute="trailing" constant="53" id="izU-34-ROq"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="gg0-Oc-gCw" secondAttribute="bottom" constant="3" id="lsI-h4-MIU"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="XwQ-2v-Elp" secondAttribute="bottom" constant="2" id="oxp-V6-aWd"/>
+                            <constraint firstItem="c21-np-QI3" firstAttribute="top" secondItem="XwQ-2v-Elp" secondAttribute="bottom" constant="2" id="tFP-dT-iN9"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="allcpu_label" destination="4OR-ES-Tnb" id="YVu-ku-CvS"/>
+                        <outlet property="allcpu_progress" destination="k8j-Hy-gsA" id="24z-DK-n3P"/>
+                        <outlet property="allmem_progress" destination="mUH-I6-Tzg" id="kGj-Oe-IAd"/>
                         <outlet property="allmemory_label" destination="dkG-x2-Tcw" id="eUg-Vj-HW5"/>
                         <outlet property="core_lab" destination="gg0-Oc-gCw" id="9Cy-dJ-nla"/>
                         <outlet property="mem_lab" destination="XwQ-2v-Elp" id="Ytu-a8-h7v"/>
