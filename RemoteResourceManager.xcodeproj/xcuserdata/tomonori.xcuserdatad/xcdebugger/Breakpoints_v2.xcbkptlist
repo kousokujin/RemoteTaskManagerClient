@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemoteResourceManager/main_controller.swift"
-            timestampString = "467269178.305607"
+            timestampString = "470901313.38118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
+            landmarkName = "mem_convertstr(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemoteResourceManager/main_controller.swift"
-            timestampString = "467269178.305607"
+            timestampString = "470901313.38118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "tick()"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemoteResourceManager/main_controller.swift"
-            timestampString = "467269178.305607"
+            timestampString = "470901313.38118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "mem_convertstr(_:)"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
+            landmarkName = "settingcorelabel(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
