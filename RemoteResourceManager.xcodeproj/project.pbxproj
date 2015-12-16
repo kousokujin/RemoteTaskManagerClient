@@ -15,6 +15,7 @@
 		2D9D98021BC622B000E59FDD /* RemoteResourceManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9D98011BC622B000E59FDD /* RemoteResourceManagerTests.swift */; };
 		2D9D980D1BC622B000E59FDD /* RemoteResourceManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9D980C1BC622B000E59FDD /* RemoteResourceManagerUITests.swift */; };
 		2D9D981B1BC6239300E59FDD /* main_controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9D981A1BC6239300E59FDD /* main_controller.swift */; settings = {ASSET_TAGS = (); }; };
+		2DB25A9D1C1A8C9900FB9818 /* graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB25A9C1C1A8C9900FB9818 /* graph.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		2D9D980C1BC622B000E59FDD /* RemoteResourceManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceManagerUITests.swift; sourceTree = "<group>"; };
 		2D9D980E1BC622B000E59FDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D9D981A1BC6239300E59FDD /* main_controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main_controller.swift; sourceTree = "<group>"; };
+		2DB25A9C1C1A8C9900FB9818 /* graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = graph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				2D9D97F31BC622B000E59FDD /* Assets.xcassets */,
 				2D9D97F51BC622B000E59FDD /* LaunchScreen.storyboard */,
 				2D9D97F81BC622B000E59FDD /* Info.plist */,
+				2DB25A9C1C1A8C9900FB9818 /* graph.swift */,
 			);
 			path = RemoteResourceManager;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				2D9D97EF1BC622B000E59FDD /* ViewController.swift in Sources */,
 				2D9D981B1BC6239300E59FDD /* main_controller.swift in Sources */,
 				2D9D97ED1BC622B000E59FDD /* AppDelegate.swift in Sources */,
+				2DB25A9D1C1A8C9900FB9818 /* graph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

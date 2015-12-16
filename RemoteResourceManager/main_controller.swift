@@ -16,8 +16,12 @@ class main_controller: UIViewController{
     
     var core:Int = 0
     var mem:Int = 0
+    var value:[Int] = []
     var corenamelabel:[UILabel]?
     var corelabel:[UILabel]?
+    
+    var cpu_g = graph(frame: CGRectMake(47, 176, 100, 50))
+    var mem_g = graph(frame: CGRectMake(47,176,100,50))
     
     @IBOutlet weak var core_lab: UILabel!
     @IBOutlet weak var mem_lab: UILabel!
@@ -36,12 +40,8 @@ class main_controller: UIViewController{
     @IBOutlet weak var CPU5: UILabel!
     @IBOutlet weak var CPU6: UILabel!
     @IBOutlet weak var CPU7: UILabel!
-    //@IBOutlet weak var CPU8: UILabel!
-    //@IBOutlet var CPU9: UIView!
-    //..@IBOutlet var CPU8: UIView!
     @IBOutlet weak var CPU8: UILabel!
     @IBOutlet weak var CPU9: UILabel!
-    //@IBOutlet var CPU10: UIView!
     @IBOutlet weak var CPU10: UILabel!
     @IBOutlet weak var CPU11: UILabel!
     @IBOutlet weak var CPU12: UILabel!
@@ -76,9 +76,23 @@ class main_controller: UIViewController{
         net?.sendCommand("OK\n")
         print(core)
        
+        //タイマー
         let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tick", userInfo: nil, repeats: true)
         
         settingcorelabel(core)
+        
+        
+        //CPUグラフ作成
+        var cpu_lab_x = CGRectGetMidX(allcpu_progress.frame)
+        cpu_g = graph(frame: CGRectMake(CGFloat(cpu_lab_x-43), 176, 100, 50),inputdate:value)
+        cpu_g.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(cpu_g)
+        
+        //メモリグラフ作成
+        var mem_lab_x=CGRectGetMidX(allmem_progress.frame)
+        mem_g = graph(frame: CGRectMake(CGFloat(mem_lab_x-50), 176, 100, 50),inputdate:value)
+        mem_g.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(mem_g)
     }
     
     func tick()
@@ -92,26 +106,23 @@ class main_controller: UIViewController{
             let cpuprogress:Float = (Float(performance_text[1])!)/100
             let memprogress:Float = (Float(performance_text[0])!)/Float(mem)
             
+            //CPUグラフ描画
+            cpu_g.adddate(Int(performance_text[1])!)
+            cpu_g.redraw()
+            
             allcpu_progress.progress = cpuprogress
             allmem_progress.progress = memprogress
             
+            //メモリグラフ描画
+            mem_g.adddate(Int(memprogress*100))
+            mem_g.redraw()
+            
+            //CPUコアごとのラベル更新
             tick_core(performance_text)
-            
-            /*
-            for(var i=0;i<core;i++)
-            {
-                if(corelabel?[i] != nil){
-                    corelabel![i].text = "aaa"
-                }else
-                {
-                    print("nil")
-                }
-            }
-            */
-            
         }
         
     }
+    
     
     func tick_core(coretext:[String])
     {
@@ -508,13 +519,14 @@ class main_controller: UIViewController{
         
     }
     
+    //メモリ単位換算
     func mem_convertstr(inputstr:String) -> String
     {
         var outputint:Double
         var input:Int = Int(inputstr)!
         var inputdouble:Double = Double(input)
         
-        print(inputstr)
+        //print(inputstr)
         
         if(input >= 2000){
             outputint = Double(inputdouble/1000)
