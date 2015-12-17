@@ -31,7 +31,7 @@ class main_controller: UIViewController{
     @IBOutlet weak var allcpu_progress: UIProgressView!
     @IBOutlet weak var allmem_progress: UIProgressView!
     
-    //CPUコア別ラベル(使用率)
+    //CPUコア別ラベル(使用率)　そろそろいらなくなりそう(2015.12.17)
     @IBOutlet weak var CPU0: UILabel!
     @IBOutlet weak var CPU1: UILabel!
     @IBOutlet weak var CPU2: UILabel!
@@ -49,7 +49,7 @@ class main_controller: UIViewController{
     @IBOutlet weak var CPU14: UILabel!
     @IBOutlet weak var CPU15: UILabel!
     
-    //CPUコア別ラベル(名前)
+    //CPUコア別ラベル(名前) そろそろいらなくなりそう(2015.12.17)
     @IBOutlet weak var CPUlabel0: UILabel!
     @IBOutlet weak var CPUlabel1: UILabel!
     @IBOutlet weak var CPUlabel2: UILabel!
@@ -67,6 +67,11 @@ class main_controller: UIViewController{
     @IBOutlet weak var CPUlabel14: UILabel!
     @IBOutlet weak var CPUlabel15: UILabel!
     
+    //CPUコア
+    var CPUlabel:[UILabel] = []
+    var CPUlabelname:[UILabel] = []
+    var CPUcoreEnable:[Bool] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -74,12 +79,33 @@ class main_controller: UIViewController{
         mem_lab.text = "maxMEM:"+mem_convertstr(String(mem))
         
         net?.sendCommand("OK\n")
-        print(core)
        
+        //CPUcoreEnable配列設定
+        for(var i=0;i<core;i++)
+        {
+            CPUcoreEnable.append(true)
+        }
+        for(var i=core;i<16;i++)
+        {
+            CPUcoreEnable.append(false)
+        }
+        
         //タイマー
         let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tick", userInfo: nil, repeats: true)
         
-        settingcorelabel(core)
+        //CPUlabel,CPUlabelname配列に追加
+        for(var i=100;i<116;i++){
+            let newcpulabel = self.view.viewWithTag(i) as! UILabel
+            CPUlabel.append(newcpulabel)
+        }
+        for(var i=200;i<216;i++)
+        {
+            let newcpunamelabel = self.view.viewWithTag(i) as! UILabel
+            CPUlabelname.append(newcpunamelabel)
+        }
+        
+        //コアごとの表示設定
+        settingcorelabel_2(core)
         
         
         //CPUグラフ作成
@@ -100,9 +126,14 @@ class main_controller: UIViewController{
         let res_str:String = net!.receive()
         if(res_str != "none")
         {
+            //受信
             let performance_text:[String] = res_str.componentsSeparatedByString(",")
+            
+            //いろいろ更新
             allcpu_label.text = performance_text[1] + "%"
             allmemory_label.text = mem_convertstr(performance_text[0])
+            
+            //割合に変換
             let cpuprogress:Float = (Float(performance_text[1])!)/100
             let memprogress:Float = (Float(performance_text[0])!)/Float(mem)
             
@@ -110,413 +141,63 @@ class main_controller: UIViewController{
             cpu_g.adddate(Int(performance_text[1])!)
             cpu_g.redraw()
             
+            //割合をプログレスバーに適応
             allcpu_progress.progress = cpuprogress
             allmem_progress.progress = memprogress
+            
+            //割合に応じてラベルの色を変える
+            allcpu_label.textColor = parcent_to_UIColor(cpuprogress)
+            allmemory_label.textColor = parcent_to_UIColor(memprogress)
             
             //メモリグラフ描画
             mem_g.adddate(Int(memprogress*100))
             mem_g.redraw()
             
             //CPUコアごとのラベル更新
-            tick_core(performance_text)
+            //tick_core(performance_text)
+            tickcore_2(performance_text)
         }
         
     }
     
-    
-    func tick_core(coretext:[String])
+    func tickcore_2(coretext:[String])
     {
-        if(CPU0.hidden == false)
+        for(var i=0;i<CPUlabel.count;i++)
         {
-            CPU0.text = coretext[2]
-        }
-        if(CPU1.hidden == false)
-        {
-            CPU1.text = coretext[3]
-        }
-        if(CPU2.hidden == false)
-        {
-            CPU2.text = coretext[4]
-        }
-        if(CPU3.hidden == false)
-        {
-            CPU3.text = coretext[5]
-        }
-        
-        if(CPU4.hidden == false)
-        {
-            CPU4.text = coretext[6]
-        }
-        if(CPU5.hidden == false)
-        {
-            CPU5.text = coretext[7]
-        }
-        if(CPU6.hidden == false)
-        {
-            CPU6.text = coretext[8]
-        }
-        if(CPU7.hidden == false)
-        {
-            CPU7.text = coretext[9]
-        }
-        
-        if(CPU8.hidden == false)
-        {
-            CPU8.text = coretext[10]
-        }
-        if(CPU9.hidden == false)
-        {
-            CPU9.text = coretext[11]
-        }
-        if(CPU10.hidden == false)
-        {
-            CPU10.text = coretext[12]
-        }
-        if(CPU11.hidden == false)
-        {
-            CPU11.text = coretext[13]
-        }
-        
-        if(CPU12.hidden == false)
-        {
-            CPU12.text = coretext[14]
-        }
-        if(CPU13.hidden == false)
-        {
-            CPU13.text = coretext[15]
-        }
-        if(CPU14.hidden == false)
-        {
-            CPU14.text = coretext[16]
-        }
-        if(CPU15.hidden == false)
-        {
-            CPU15.text = coretext[17]
+            if(CPUcoreEnable[i] == true)
+            {
+                let per:Float = (Float(coretext[i+1])!)/100 //i+2だとなぜかうまくいかない
+                CPUlabel[i].text = coretext[i+2]
+                CPUlabel[i].textColor = parcent_to_UIColor(per)
+            }
         }
     }
-    func settingcorelabel(corecount:Int)
-    {
-        allhidden(true)
-        
-        //ひどすぎる実装
-        switch(corecount)
-        {
-        case 1:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            break
-        case 2:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            break
-        case 3:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel2.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            break
-        case 4:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            break
-        case 5:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            break
-        case 6:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            break
-        case 7:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            break
-        case 8:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            break
-        case 9:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            CPU8.hidden = false
-            CPUlabel8.hidden = false
-            break
-        case 10:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            CPU8.hidden = false
-            CPUlabel8.hidden = false
-            CPU9.hidden = false
-            CPUlabel9.hidden = false
-            break
-        case 11:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            CPU8.hidden = false
-            CPUlabel8.hidden = false
-            CPU9.hidden = false
-            CPUlabel9.hidden = false
-            CPU10.hidden = false
-            CPUlabel10.hidden = false
-            break
-        case 12:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            CPU8.hidden = false
-            CPUlabel8.hidden = false
-            CPU9.hidden = false
-            CPUlabel9.hidden = false
-            CPU10.hidden = false
-            CPUlabel10.hidden = false
-            CPU11.hidden = false
-            CPUlabel10.hidden = false
-            break
-        case 13:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            CPU8.hidden = false
-            CPUlabel8.hidden = false
-            CPU9.hidden = false
-            CPUlabel9.hidden = false
-            CPU10.hidden = false
-            CPUlabel10.hidden = false
-            CPU11.hidden = false
-            CPUlabel11.hidden = false
-            CPU12.hidden = false
-            CPUlabel12.hidden = false
-            break
-        case 14:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            CPU8.hidden = false
-            CPUlabel8.hidden = false
-            CPU9.hidden = false
-            CPUlabel9.hidden = false
-            CPU10.hidden = false
-            CPUlabel10.hidden = false
-            CPU11.hidden = false
-            CPUlabel11.hidden = false
-            CPU12.hidden = false
-            CPUlabel12.hidden = false
-            CPU13.hidden = false
-            CPUlabel13.hidden = false
-            break
-        case 15:
-            CPU0.hidden = false
-            CPUlabel0.hidden = false
-            CPU1.hidden = false
-            CPUlabel1.hidden = false
-            CPU2.hidden = false
-            CPUlabel2.hidden = false
-            CPU3.hidden = false
-            CPUlabel3.hidden = false
-            CPU4.hidden = false
-            CPUlabel4.hidden = false
-            CPU5.hidden = false
-            CPUlabel5.hidden = false
-            CPU6.hidden = false
-            CPUlabel6.hidden = false
-            CPU7.hidden = false
-            CPUlabel7.hidden = false
-            CPU8.hidden = false
-            CPUlabel8.hidden = false
-            CPU9.hidden = false
-            CPUlabel9.hidden = false
-            CPU10.hidden = false
-            CPUlabel10.hidden = false
-            CPU11.hidden = false
-            CPUlabel11.hidden = false
-            CPU12.hidden = false
-            CPUlabel12.hidden = false
-            CPU13.hidden = false
-            CPUlabel13.hidden = false
-            CPU14.hidden = false
-            CPUlabel14.hidden = false
-            break
-        case 16:
-            allhidden(false)
-            break
+    
 
-        default:
-            allhidden(true)
-
+    
+    func settingcorelabel_2(corecount:Int)
+    {
+        allhidden_2(true)
+        for(var i=0;i<corecount;i++)
+        {
+            print(i)
+            //CPUlabel[i].hidden = false
+            //CPUlabelname[i].hidden = false
+            CPUlabel[i].textColor = UIColor(red:1.0,green:1.0,blue:1.0,alpha:1.0)
+            CPUlabelname[i].textColor = UIColor(red:1.0,green:1.0,blue:1.0,alpha:1.0)
         }
     }
     
-    func allhidden(hid:Bool)
+    
+    func allhidden_2(hid:Bool)  //全てのコアを隠す->全てのコアをのラベルをグレーに変更
     {
-        CPU0.hidden = hid
-        CPU1.hidden = hid
-        CPU2.hidden = hid
-        CPU3.hidden = hid
-        CPU4.hidden = hid
-        CPU5.hidden = hid
-        CPU6.hidden = hid
-        CPU7.hidden = hid
-        CPU8.hidden = hid
-        CPU9.hidden = hid
-        CPU10.hidden = hid
-        CPU11.hidden = hid
-        CPU12.hidden = hid
-        CPU13.hidden = hid
-        CPU14.hidden = hid
-        CPU15.hidden = hid
-        
-        CPUlabel0.hidden = hid
-        CPUlabel1.hidden = hid
-        CPUlabel2.hidden = hid
-        CPUlabel3.hidden = hid
-        CPUlabel4.hidden = hid
-        CPUlabel5.hidden = hid
-        CPUlabel6.hidden = hid
-        CPUlabel7.hidden = hid
-        CPUlabel8.hidden = hid
-        CPUlabel9.hidden = hid
-        CPUlabel10.hidden = hid
-        CPUlabel11.hidden = hid
-        CPUlabel12.hidden = hid
-        CPUlabel13.hidden = hid
-        CPUlabel14.hidden = hid
-        CPUlabel15.hidden = hid
-        
+        for(var i=0;i<CPUlabel.count;i++)
+        {
+            //CPUlabel[i].hidden = true
+            //CPUlabelname[i].hidden = true
+            CPUlabel[i].textColor = UIColor(red:1.0,green:1.0,blue:1.0,alpha:0.4)
+            CPUlabelname[i].textColor = UIColor(red:1.0,green:1.0,blue:1.0,alpha:0.4)
+        }
     }
     
     //メモリ単位換算
@@ -535,6 +216,15 @@ class main_controller: UIViewController{
         {
             return String(input)+"MB"
         }
+    }
+    
+    func parcent_to_UIColor(per:Float) -> UIColor
+    {
+        let green_float:CGFloat = CGFloat(1.0-(per*0.5))
+        let blue_float:CGFloat = CGFloat(1.0-(per*0.5))
+        let outputcolor:UIColor = UIColor(red:1.0,green:green_float,blue:blue_float,alpha:1.0)
+        
+        return outputcolor
     }
     
     override func didReceiveMemoryWarning() {
