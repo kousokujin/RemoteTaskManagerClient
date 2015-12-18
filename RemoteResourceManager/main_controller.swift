@@ -110,13 +110,13 @@ class main_controller: UIViewController{
         
         //CPUグラフ作成
         var cpu_lab_x = CGRectGetMidX(allcpu_progress.frame)
-        cpu_g = graph(frame: CGRectMake(CGFloat(cpu_lab_x-43), 176, 100, 50),inputdate:value)
+        cpu_g = graph(frame: CGRectMake(CGFloat(self.view.center.x-120), 176, 100, 50),inputdate:value)
         cpu_g.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(cpu_g)
         
         //メモリグラフ作成
         var mem_lab_x=CGRectGetMidX(allmem_progress.frame)
-        mem_g = graph(frame: CGRectMake(CGFloat(mem_lab_x-50), 176, 100, 50),inputdate:value)
+        mem_g = graph(frame: CGRectMake(CGFloat(self.view.center.x+20), 176, 100, 50),inputdate:value)
         mem_g.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(mem_g)
     }
@@ -144,6 +144,8 @@ class main_controller: UIViewController{
             //割合をプログレスバーに適応
             allcpu_progress.progress = cpuprogress
             allmem_progress.progress = memprogress
+            progress_changeColor(allcpu_progress)
+            progress_changeColor(allmem_progress)
             
             //割合に応じてラベルの色を変える
             allcpu_label.textColor = parcent_to_UIColor(cpuprogress)
@@ -220,11 +222,39 @@ class main_controller: UIViewController{
     
     func parcent_to_UIColor(per:Float) -> UIColor
     {
-        let green_float:CGFloat = CGFloat(1.0-(per*0.5))
-        let blue_float:CGFloat = CGFloat(1.0-(per*0.5))
-        let outputcolor:UIColor = UIColor(red:1.0,green:green_float,blue:blue_float,alpha:1.0)
+        if(per < 0.5)
+        {
+            let red_float:CGFloat = CGFloat(0.5+per)
+            let green_float:CGFloat = CGFloat(0.5+per)
+            
+            let outputcolor:UIColor = UIColor(red:red_float,green:green_float,blue:1.0,alpha:1.0)
+            return outputcolor
+        }
+        if(per > 0.5){
+            
+            let green_float:CGFloat = CGFloat(1.5-per)
+            let blue_float:CGFloat = CGFloat(1.5-per)
+            
+            let outputcolor:UIColor = UIColor(red:1.0,green:green_float,blue:blue_float,alpha:1.0)
+            return outputcolor
+        }
         
+        let outputcolor:UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         return outputcolor
+    }
+    
+    func progress_changeColor(progresber:UIProgressView)
+    {
+        if(progresber.progress > 0.8)
+        {
+            let color:UIColor = UIColor(red:1.0,green:0.5,blue:0,alpha:1.0)
+            progresber.tintColor = color
+            
+        }else
+        {
+            let color:UIColor = UIColor(red:0,green:0.48,blue:1.0,alpha:1.0)
+            progresber.tintColor = color
+        }
     }
     
     override func didReceiveMemoryWarning() {
