@@ -12,9 +12,11 @@ import UIKit
 class graph: UIView {
     
     var value:[Int] = []
+    var graph_color:UIColor = UIColor.redColor()
     
-    init(frame: CGRect,inputdate:[Int]) {
+    init(frame: CGRect,inputdate:[Int],color:UIColor) {
         super.init(frame: frame)
+        graph_color = color
         rewritedate(inputdate)
     }
     
@@ -82,10 +84,11 @@ class graph: UIView {
         }
         
         // 色の設定
-        UIColor.redColor().setStroke()
+        //UIColor.redColor().setStroke()
+        graph_color.setStroke()
         
         // ライン幅
-        line.lineWidth = 1
+        line.lineWidth = 3
         
         // 描画
         line.stroke();
@@ -119,7 +122,7 @@ class graph: UIView {
     func redraw()
     {
         [self .setNeedsDisplay()]
-        print("redraw")
+        //print("redraw")
 
     }
 

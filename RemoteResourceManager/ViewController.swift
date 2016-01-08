@@ -28,12 +28,16 @@ class ViewController: UIViewController {
         
         now_connecting.hidden = true
         now_activity.hidden = true
+        
+        // ユーザーに対して通知の許可確認
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
@@ -72,15 +76,32 @@ class ViewController: UIViewController {
         now_activity.hidden = false
         
         self.view.endEditing(true)
+        
         let p_int:Int?=(Int(port_box.text!))
         let p:UInt32=UInt32(p_int!)
         
+        net.setup(p, a: ip_add_box.text!)
+        net.conect()
+        
+        rec()
+        performSegueWithIdentifier("next_segue",sender: nil)
+        
+        //NSThread.detachNewThreadSelector("threadFunc", toTarget: self, withObject: nil)
+        //非同期処理でサーバに接続して画面遷移したいが、画面遷移後の画面で画面が更新しない
+    }
+    
+    func threadFunc()   //非同期処理メソッド
+    {
+        self.view.endEditing(true)
+        
+        let p_int:Int?=(Int(port_box.text!))
+        let p:UInt32=UInt32(p_int!)
         
         net.setup(p, a: ip_add_box.text!)
         net.conect()
-        //var timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "rec", userInfo: nil, repeats: true
-
+        
         rec()
+        
         performSegueWithIdentifier("next_segue",sender: nil)
     }
 }
@@ -99,6 +120,7 @@ class Connection : NSObject,NSStreamDelegate{
     
     func conect()
     {
+        
         var readStream: Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
         //println(add)

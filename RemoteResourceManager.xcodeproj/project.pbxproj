@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D5D0EEC1C3CCC8400DD2AF5 /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 2D5D0EEB1C3CCC8400DD2AF5 /* LEDBDREV.TTF */; settings = {ASSET_TAGS = (); }; };
 		2D9D97ED1BC622B000E59FDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9D97EC1BC622B000E59FDD /* AppDelegate.swift */; };
 		2D9D97EF1BC622B000E59FDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9D97EE1BC622B000E59FDD /* ViewController.swift */; };
 		2D9D97F21BC622B000E59FDD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D9D97F01BC622B000E59FDD /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D5D0EEB1C3CCC8400DD2AF5 /* LEDBDREV.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBDREV.TTF; sourceTree = "<group>"; };
 		2D9D97E91BC622B000E59FDD /* RemoteResourceManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteResourceManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D9D97EC1BC622B000E59FDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D9D97EE1BC622B000E59FDD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		2D9D97EB1BC622B000E59FDD /* RemoteResourceManager */ = {
 			isa = PBXGroup;
 			children = (
+				2D5D0EEB1C3CCC8400DD2AF5 /* LEDBDREV.TTF */,
 				2D9D97EC1BC622B000E59FDD /* AppDelegate.swift */,
 				2D9D97EE1BC622B000E59FDD /* ViewController.swift */,
 				2D9D97F01BC622B000E59FDD /* Main.storyboard */,
@@ -235,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D5D0EEC1C3CCC8400DD2AF5 /* LEDBDREV.TTF in Resources */,
 				2D9D97F71BC622B000E59FDD /* LaunchScreen.storyboard in Resources */,
 				2D9D97F41BC622B000E59FDD /* Assets.xcassets in Resources */,
 				2D9D97F21BC622B000E59FDD /* Main.storyboard in Resources */,

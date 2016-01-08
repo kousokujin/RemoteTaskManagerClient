@@ -20,6 +20,10 @@ class main_controller: UIViewController{
     var corenamelabel:[UILabel]?
     var corelabel:[UILabel]?
     
+    //通知
+    var cpu_notification = 0
+    var mem_notification = 0
+    
     var cpu_g = graph(frame: CGRectMake(47, 176, 100, 50))
     var mem_g = graph(frame: CGRectMake(47,176,100,50))
     
@@ -90,9 +94,6 @@ class main_controller: UIViewController{
             CPUcoreEnable.append(false)
         }
         
-        //タイマー
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tick", userInfo: nil, repeats: true)
-        
         //CPUlabel,CPUlabelname配列に追加
         for(var i=100;i<116;i++){
             let newcpulabel = self.view.viewWithTag(i) as! UILabel
@@ -110,20 +111,26 @@ class main_controller: UIViewController{
         
         //CPUグラフ作成
         var cpu_lab_x = CGRectGetMidX(allcpu_progress.frame)
-        cpu_g = graph(frame: CGRectMake(CGFloat(self.view.center.x-120), 176, 100, 50),inputdate:value)
+        cpu_g = graph(frame: CGRectMake(CGFloat(self.view.center.x-120), 176, 100, 50),inputdate:value,color:UIColor.redColor())
         cpu_g.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(cpu_g)
         
         //メモリグラフ作成
         var mem_lab_x=CGRectGetMidX(allmem_progress.frame)
-        mem_g = graph(frame: CGRectMake(CGFloat(self.view.center.x+20), 176, 100, 50),inputdate:value)
+        mem_g = graph(frame: CGRectMake(CGFloat(self.view.center.x+20),176,100,50),inputdate:value,color:UIColor.brownColor())
         mem_g.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(mem_g)
+        
+        //タイマー
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self,selector: "tick", userInfo: nil, repeats: true)
+        //NSThread.detachNewThreadSelector("tick_timer", toTarget: self, withObject: nil)
+        
     }
     
     func tick()
     {
         let res_str:String = net!.receive()
+        print(res_str)
         if(res_str != "none")
         {
             //受信
@@ -132,6 +139,7 @@ class main_controller: UIViewController{
             //いろいろ更新
             allcpu_label.text = performance_text[1] + "%"
             allmemory_label.text = mem_convertstr(performance_text[0])
+            
             
             //割合に変換
             let cpuprogress:Float = (Float(performance_text[1])!)/100
@@ -158,6 +166,46 @@ class main_controller: UIViewController{
             //CPUコアごとのラベル更新
             //tick_core(performance_text)
             tickcore_2(performance_text)
+            
+            if((cpuprogress > 0.8) && (cpu_notification == 0)) //CPU使用率警告
+            {
+                let per = Int(cpuprogress * 100)
+                let percent = NSString(format: "%d",per) as String
+                let mes:String = "警告:CPU使用率" + percent + "%%"
+                print(mes)
+                notification(mes)
+                cpu_notification++
+            }else
+            {
+                if(cpu_notification != 0)
+                {
+                    cpu_notification++
+                }
+                if(cpu_notification > 30)
+                {
+                    cpu_notification = 0
+                }
+            }
+            
+            if((memprogress > 0.8) && (mem_notification == 0))
+            {
+                let per = Int(memprogress * 100)
+                let percent = NSString(format: "%d",per) as String
+                let mes:String = "警告:メモリ使用率" + percent + "%%(" + allmemory_label.text! + ")"
+                notification(mes)
+                
+                mem_notification++
+            }else
+            {
+                if(mem_notification != 0)
+                {
+                    mem_notification++
+                }
+                if(mem_notification > 30)
+                {
+                    mem_notification = 0
+                }
+            }
         }
         
     }
@@ -168,7 +216,7 @@ class main_controller: UIViewController{
         {
             if(CPUcoreEnable[i] == true)
             {
-                let per:Float = (Float(coretext[i+1])!)/100 //i+2だとなぜかうまくいかない
+                let per:Float = (Float(coretext[i+2])!)/100 //i+2だとなぜかうまくいかない
                 CPUlabel[i].text = coretext[i+2]
                 CPUlabel[i].textColor = parcent_to_UIColor(per)
             }
@@ -211,16 +259,30 @@ class main_controller: UIViewController{
         
         //print(inputstr)
         
-        if(input >= 2000){
-            outputint = Double(inputdouble/1000)
-            return (NSString(format: "%.2f",outputint) as String)+"GB"
-        }else
+        /*
+        if(input < 2000)
         {
             return String(input)+"MB"
         }
+        */
+        
+        if((input >= 2000) && (input < 10000)){
+            outputint = Double(inputdouble/1000)
+            return (NSString(format: "%.2f",outputint) as String)+"GB"
+        }
+        
+        if(input >= 10000)
+        {
+            outputint = Double(inputdouble/1000)
+            return (NSString(format: "%.1f",outputint) as String)+"GB"
+        }
+        
+        return String(input)+"MB"
     }
     
-    func parcent_to_UIColor(per:Float) -> UIColor
+    
+    
+    func parcent_to_UIColor(per:Float) -> UIColor //使用率に応じてフォントの色を変える
     {
         if(per < 0.5)
         {
@@ -255,6 +317,17 @@ class main_controller: UIViewController{
             let color:UIColor = UIColor(red:0,green:0.48,blue:1.0,alpha:1.0)
             progresber.tintColor = color
         }
+    }
+    
+    func notification(message:String) //通知
+    {
+        var notification = UILocalNotification()
+        notification.fireDate = NSDate()	// すぐに通知したいので現在時刻を取得
+        notification.timeZone = NSTimeZone.defaultTimeZone()
+        notification.alertBody = message
+        notification.alertAction = "OK"
+        notification.soundName = UILocalNotificationDefaultSoundName
+        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
     }
     
     override func didReceiveMemoryWarning() {
