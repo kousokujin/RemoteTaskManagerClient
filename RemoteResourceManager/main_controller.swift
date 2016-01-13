@@ -280,10 +280,26 @@ class main_controller: UIViewController{
         return String(input)+"MB"
     }
     
+    func save() //接続先を保存
+    {
+        let now = NSDate()
+        
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        
+        let time:String = formatter.stringFromDate(now)
+        
+        let history:connect_history = connect_history(address: net!.add, port: net!.port, time: time)
+        let history_odj = history_save(set: history)
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue(history_odj, forKey: "date")
+    }
     
     
     func parcent_to_UIColor(per:Float) -> UIColor //使用率に応じてフォントの色を変える
     {
+        /*
         if(per < 0.5)
         {
             let red_float:CGFloat = CGFloat(0.5+per)
@@ -303,6 +319,16 @@ class main_controller: UIViewController{
         
         let outputcolor:UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         return outputcolor
+        */
+        
+        let R:CGFloat = CGFloat(0.5 + (0.5*per))
+        let G:CGFloat = 0.5
+        let B:CGFloat = CGFloat(1.0 - (0.5*per))
+        
+        let outputcolor = UIColor(red:R,green:G,blue:B,alpha:1.0)
+        
+        return outputcolor
+        
     }
     
     func progress_changeColor(progresber:UIProgressView)
@@ -337,4 +363,26 @@ class main_controller: UIViewController{
     
     
 
+}
+
+struct connect_history
+{
+    var address:CFString
+    var port:UInt32
+    var time:String
+    
+}
+
+class history_save
+{
+    var address:CFString = "none"
+    var port:UInt32 = 0
+    var time:String = "none"
+    
+    init(set:connect_history)
+    {
+        address = set.address
+        port = set.port
+        time = set.time
+    }
 }
