@@ -87,41 +87,56 @@
                                 <rect key="frame" x="113" y="164" width="97" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="接続中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yiW-HD-r45">
-                                <rect key="frame" x="159" y="220" width="51" height="21"/>
+                                <rect key="frame" x="159" y="248" width="51" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="RFY-WC-Oxs">
-                                <rect key="frame" x="131" y="220" width="20" height="20"/>
+                                <rect key="frame" x="131" y="249" width="20" height="20"/>
                                 <animations/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="ポート" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tgk-2g-Jgh">
                                 <rect key="frame" x="15" y="167" width="90" height="21"/>
                                 <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="khl-Oc-FEh"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="パスワード" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xLb-Hk-Tt7">
+                                <rect key="frame" x="15" y="205" width="85" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CvX-xX-rlK">
+                                <rect key="frame" x="113" y="202" width="150" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="KHa-v7-Fr5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-5" id="0mI-bD-WwR"/>
-                            <constraint firstItem="tgk-2g-Jgh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-5" id="F9A-s1-5Qz"/>
                             <constraint firstItem="tgk-2g-Jgh" firstAttribute="width" secondItem="KHa-v7-Fr5" secondAttribute="width" id="GqA-WZ-l37"/>
                             <constraint firstItem="pY0-cg-uJw" firstAttribute="leading" secondItem="KHa-v7-Fr5" secondAttribute="trailing" constant="8" id="M0V-ym-Ddu"/>
+                            <constraint firstItem="tgk-2g-Jgh" firstAttribute="width" secondItem="KHa-v7-Fr5" secondAttribute="width" id="QCo-Vp-SBG"/>
                             <constraint firstItem="xs8-Zx-TeB" firstAttribute="leading" secondItem="tgk-2g-Jgh" secondAttribute="trailing" constant="8" id="VlF-Ie-vLq"/>
                             <constraint firstItem="eYe-oW-7mO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fbq-PV-mQe"/>
                             <constraint firstItem="pY0-cg-uJw" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="rLK-4F-shc"/>
+                            <constraint firstItem="CvX-xX-rlK" firstAttribute="leading" secondItem="xLb-Hk-Tt7" secondAttribute="trailing" constant="8" id="x2e-Jc-A3D"/>
+                            <constraint firstItem="xLb-Hk-Tt7" firstAttribute="width" secondItem="KHa-v7-Fr5" secondAttribute="width" id="xAc-lp-I6A"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="gSQ-M9-FHM" appends="YES" id="HH9-Ea-uL6"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="kde-u7-19K"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -129,11 +144,17 @@
                         <outlet property="ip_add_box" destination="pY0-cg-uJw" id="qBc-z5-A7l"/>
                         <outlet property="now_activity" destination="RFY-WC-Oxs" id="UZz-La-PgW"/>
                         <outlet property="now_connecting" destination="yiW-HD-r45" id="xc5-1P-vVO"/>
+                        <outlet property="password_textbox" destination="CvX-xX-rlK" id="I9l-dT-clr"/>
                         <outlet property="port_box" destination="xs8-Zx-TeB" id="h7n-aU-fdD"/>
                         <segue destination="HaM-l8-oHr" kind="show" identifier="next_segue" id="qHU-K3-Db7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="gSQ-M9-FHM">
+                    <connections>
+                        <action selector="tapScreen:" destination="BYZ-38-t0r" id="vsv-Wr-aba"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1046.5" y="364.5"/>
         </scene>

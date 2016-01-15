@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var port_box: UITextField!
     @IBOutlet weak var now_connecting: UILabel!
     @IBOutlet weak var now_activity: UIActivityIndicatorView!
+    @IBOutlet weak var password_textbox: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,26 +55,77 @@ class ViewController: UIViewController {
     
     func rec()
     {
+        
+        net.sendCommand((password_textbox.text!)+"\n")
+        
         var res_str:String = "none"
         while(res_str == "none")
         {
             res_str = net.receive()
         }
         
-        print(res_str)
-        let performance_text:[String] = res_str.componentsSeparatedByString(",")
-        print(performance_text[1])
+        if(res_str == "password_error\n")
+        {
+            let alertController = UIAlertController(title: "接続失敗", message: "パスワードが違います", preferredStyle: .Alert)
+            
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(defaultAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+            
+        }
+        else{
+            print(res_str)
+            let performance_text:[String] = res_str.componentsSeparatedByString(",")
+            print(performance_text[1])
         
-        core = Int(performance_text[0])!
-        mem = Int(performance_text[1])!
+            core = Int(performance_text[0])!
+            mem = Int(performance_text[1])!
+        }
         
         
     }
     
     @IBAction func connect_button(sender: AnyObject) {
         
-        now_connecting.hidden = false
-        now_activity.hidden = false
+        //now_connecting.hidden = false
+        //now_activity.hidden = false
+        
+        if((ip_add_box.text! == "") && (port_box.text! != ""))
+        {
+            let alertController = UIAlertController(title: "", message: "アドレスを入力してください", preferredStyle: .Alert)
+            
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(defaultAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
+        if((ip_add_box.text! != "") && (port_box.text! == ""))
+        {
+            let alertController = UIAlertController(title: "", message: "ポート番号を入力してください", preferredStyle: .Alert)
+            
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(defaultAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
+        if((ip_add_box.text! == "") && (port_box.text! == ""))
+        {
+            let alertController = UIAlertController(title: "", message: "アドレスとポート番号を入力してください", preferredStyle: .Alert)
+            
+            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(defaultAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+            
+            return
+        }
         
         self.view.endEditing(true)
         
@@ -88,6 +140,10 @@ class ViewController: UIViewController {
         
         //NSThread.detachNewThreadSelector("threadFunc", toTarget: self, withObject: nil)
         //非同期処理でサーバに接続して画面遷移したいが、画面遷移後の画面で画面が更新しない
+    }
+    
+    @IBAction func tapScreen(sender: AnyObject) {
+        self.view.endEditing(true)
     }
     
     func threadFunc()   //非同期処理メソッド

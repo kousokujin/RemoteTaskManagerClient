@@ -51,7 +51,7 @@
 		2D9D98081BC622B000E59FDD /* RemoteResourceManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoteResourceManagerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D9D980C1BC622B000E59FDD /* RemoteResourceManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceManagerUITests.swift; sourceTree = "<group>"; };
 		2D9D980E1BC622B000E59FDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2D9D981A1BC6239300E59FDD /* main_controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main_controller.swift; sourceTree = "<group>"; };
+		2D9D981A1BC6239300E59FDD /* main_controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main_controller.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		2DB25A9C1C1A8C9900FB9818 /* graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = graph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

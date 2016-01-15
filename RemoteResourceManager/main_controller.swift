@@ -82,7 +82,7 @@ class main_controller: UIViewController{
         core_lab.text = "CPU Thread:"+String(core)
         mem_lab.text = "maxMEM:"+mem_convertstr(String(mem))
         
-        net?.sendCommand("OK\n")
+        //net?.sendCommand("OK\n")
        
         //CPUcoreEnable配列設定
         for(var i=0;i<core;i++)
